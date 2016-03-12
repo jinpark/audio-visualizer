@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "SoundCloud Visualizer",
+  "version": "0.0.1",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.soundcloud.com/*", "https://soundcloud.com/*"
+      ],
+      "run_at": "document_start",
+      "js": ["content.js"]
+    }
+  ]
+}
