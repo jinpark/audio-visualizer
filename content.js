@@ -22,16 +22,63 @@ document.documentElement.appendChild(script);
 setTimeout(function() {
     var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     var source = audioCtx.createMediaElementSource(document.querySelectorAll('audio')[1]);
-    var gainNode = audioCtx.createGain();
-    var CurY;
-    var HEIGHT = window.innerHeight;
-    document.onmousemove = updatePage;
+    console.log(document.querySelectorAll('audio')[1]);
+    console.log(source);
+    var analyser = audioCtx.createAnalyser();
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
 
-    function updatePage(e) {
-        CurY = (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+    analyser.fftSize = 2048;
+    var bufferLength = analyser.frequencyBinCount;
+    var dataArray = new Uint8Array(bufferLength);
 
-        gainNode.gain.value = CurY/HEIGHT;
-    }
-    source.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-}, 5000 )
+    analyser.getByteTimeDomainData(dataArray);
+
+    var WIDTH = 300;
+    var HEIGHT = 150;
+
+    function draw() {
+        drawVisual = requestAnimationFrame(draw);
+        analyser.getByteTimeDomainData(dataArray);
+        canvasCtx.fillStyle = 'rgb(200, 200, 200)';
+        canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+        canvasCtx.lineWidth = 2;
+        canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
+
+        canvasCtx.beginPath();
+        var sliceWidth = WIDTH * 1.0 / bufferLength;
+        var x = 0;
+
+        for(var i = 0; i < bufferLength; i++) {
+           
+            var v = dataArray[i] / 128.0;
+            var y = v * HEIGHT/2;
+
+            if(i === 0) {
+              canvasCtx.moveTo(x, y);
+            } else {
+              canvasCtx.lineTo(x, y);
+            }
+
+            x += sliceWidth;
+        }
+        canvasCtx.lineTo(canvas.width, canvas.height/2);
+        canvasCtx.stroke();
+    };
+
+    chrome.runtime.sendMessage({canvas: true}, function(response) {
+        console.log('look here');
+        console.log(response);
+        canvas = document.createElement('canvas');
+        i = document.getElementsByClassName('l-listen-hero')[0];
+        i.appendChild(canvas);
+        canvasCtx = canvas.getContext("2d")
+        canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+
+      // console.log(response.farewell);
+      draw();
+
+    });
+
+
+}, 10000 )

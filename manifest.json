@@ -10,5 +10,13 @@
       "run_at": "document_start",
       "js": ["content.js"]
     }
-  ]
+  ],
+  "browser_action": {
+    "default_icon": {                    // optional
+      "256": "sc-icon.png"           // optional
+    //   "38": "images/icon38.png"            // optional
+    },
+    "default_title": "SoundCloud Visualizer",      // optional; shown in tooltip
+    "default_popup": "popup.html"        // optional
+  }
 }
