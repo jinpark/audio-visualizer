@@ -38,46 +38,13 @@ setTimeout(function() {
     var HEIGHT = 150;
 
     function draw() {
-        drawVisual = requestAnimationFrame(draw);
         analyser.getByteTimeDomainData(dataArray);
-        canvasCtx.fillStyle = 'rgb(200, 200, 200)';
-        canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
-        canvasCtx.lineWidth = 2;
-        canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
-
-        canvasCtx.beginPath();
-        var sliceWidth = WIDTH * 1.0 / bufferLength;
-        var x = 0;
-
-        for(var i = 0; i < bufferLength; i++) {
-           
-            var v = dataArray[i] / 128.0;
-            var y = v * HEIGHT/2;
-
-            if(i === 0) {
-              canvasCtx.moveTo(x, y);
-            } else {
-              canvasCtx.lineTo(x, y);
-            }
-
-            x += sliceWidth;
-        }
-        canvasCtx.lineTo(canvas.width, canvas.height/2);
-        canvasCtx.stroke();
+        port.postMessage({arr: dataArray, bufferLength: analyser.frequencyBinCount});
     };
-
-    chrome.runtime.sendMessage({canvas: true}, function(response) {
-        console.log('look here');
-        console.log(response);
-        canvas = document.createElement('canvas');
-        i = document.getElementsByClassName('l-listen-hero')[0];
-        i.appendChild(canvas);
-        canvasCtx = canvas.getContext("2d")
-        canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-
-      // console.log(response.farewell);
-      draw();
-
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        port = chrome.runtime.connect({name: "visualizer"});
+        var intv = setInterval(function(){draw()}, 1000 / 30);
+        port.onDisconnect.addListener(function(){clearInterval(intv)});
     });
 
 
