@@ -12,17 +12,17 @@ port.postMessage("Hi BackGround");
     console.log(['inpopup', msg]);
     dataArray = msg.arr;
     bufferLength = msg.bufferLength;
-    canvasCtx.fillStyle = 'rgb(200, 200, 200)';
+    canvasCtx.fillStyle = 'rgb(242, 242, 242)';
     canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
     canvasCtx.lineWidth = 2;
-    canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
+    canvasCtx.strokeStyle = 'rgb(255, 102, 0)';
 
     canvasCtx.beginPath();
     var sliceWidth = WIDTH * 1.0 / bufferLength;
     var x = 0;
 
     for(var i = 0; i < bufferLength; i++) {
-       
+
         var v = dataArray[i] / 128.0;
         var y = v * HEIGHT/2;
 
@@ -44,4 +44,3 @@ port.postMessage("Hi BackGround");
 //     console.log('sent initial');
 //   });
 // });
-
