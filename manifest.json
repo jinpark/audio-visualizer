@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "SoundCloud Visualizer",
+  "name": "Audio Visualizer",
   "version": "0.0.2",
   "permissions": [
     "tabCapture",
