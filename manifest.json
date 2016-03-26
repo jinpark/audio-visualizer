@@ -1,22 +1,20 @@
 {
   "manifest_version": 2,
-  "name": "SoundCloud Visualizer",
-  "version": "0.0.1",
-  "content_scripts": [
-    {
-      "matches": [
-        "https://*.soundcloud.com/*", "https://soundcloud.com/*"
-      ],
-      "run_at": "document_start",
-      "js": ["content.js"]
-    }
+  "name": "Audio Visualizer",
+  "version": "0.0.2",
+  "permissions": [
+    "tabCapture",
+    "activeTab", 
+    "alarms"
   ],
+  "background":{
+    "scripts": ["background.js"]
+  },
   "browser_action": {
-    "default_icon": {                    // optional
-      "256": "sc-icon.png"           // optional
-    //   "38": "images/icon38.png"            // optional
+    "default_icon": {   
+      "256": "sound.png"
     },
-    "default_title": "SoundCloud Visualizer",      // optional; shown in tooltip
-    "default_popup": "popup.html"        // optional
+    "default_title": "Audio Visualizer", 
+    "default_popup": "popup.html"        
   }
 }
