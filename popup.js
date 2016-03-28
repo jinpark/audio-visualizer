@@ -14,15 +14,21 @@ port.onMessage.addListener(function(msg) {
   canvasCtx.fillStyle = 'rgb(242, 242, 242)';
   canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
   canvasCtx.lineWidth = 2;
-  canvasCtx.strokeStyle = 'rgb(255, 102, 0)';
   canvasCtx.beginPath();
 
   var sliceWidth = WIDTH * 1.0 / bufferLength;
   var x = 0;
 
   for(var i = 0; i < bufferLength; i++) {
-      var v = dataArray[i] / 128.0;
+      var data = dataArray[i];
+      var v = data / 128.0;
       var y = v * HEIGHT/2;
+
+      var r = data + 120 ;
+      var g = 255 -  data ;
+      var b = data / 3;
+
+      canvasCtx.strokeStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
 
       if(i === 0) {
         canvasCtx.moveTo(x, y);
