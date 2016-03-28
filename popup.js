@@ -11,12 +11,12 @@ port.onMessage.addListener(function(msg) {
   var dataArray = msg.data;
   var bufferLength = msg.bufferLength;
 
-  canvasCtx.fillStyle = 'rgb(200, 200, 200)';
+  canvasCtx.fillStyle = 'rgb(242, 242, 242)';
   canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
   canvasCtx.lineWidth = 2;
-  canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
-
+  canvasCtx.strokeStyle = 'rgb(255, 102, 0)';
   canvasCtx.beginPath();
+
   var sliceWidth = WIDTH * 1.0 / bufferLength;
   var x = 0;
 
