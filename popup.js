@@ -19,11 +19,8 @@ port.onMessage.addListener(function(msg) {
 
   for(var i = 0; i < bufferLength; i++) {
       var data = dataArray[i];
-      var v = data / 128.0;
       var y = v * HEIGHT/2;
       canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-      canvasCtx.drawImage(img, IMG_X , IMG_Y , data * 1.3 , data * 1.5)
-      canvasCtx.translate(cw / 2, ch / 2);
-      canvasCtx.rotate( Math.PI / 4);
+      canvasCtx.drawImage(img, IMG_X , IMG_Y , data  , y)
   }
 });
